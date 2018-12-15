@@ -1,5 +1,5 @@
 {
-    "name": "yii2-websocket/yiiplus",
+    "name": "yiiplus/yii2-websocket",
     "description": "使用yii2封装 websocket 扩展",
     "type": "yii2-extension",
     "keywords": ["yii2","extension","websocket","swoole"],

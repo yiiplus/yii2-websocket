@@ -50,8 +50,8 @@ class PushController extends WebSocketServerController
      ...
      'websocket_client' => [
          'class' => 'yiiplus\websocket\components\WebSocketClient',
-         'host' => '127.0.0.1',
-         'port' => '9501',
+         'host' => '173.18.19.1',
+         'port' => '9503',
          'path' => '/',
          'origin' => null,
      ],
