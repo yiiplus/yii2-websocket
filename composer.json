@@ -12,7 +12,8 @@
     ],
     "require": {
         "yiisoft/yii2": "~2.0.0",
-        "php": ">=7.1.0"
+        "php": ">=7.1.0",
+        "ext-swoole": ">=1.7.9"
     },
     "autoload": {
         "psr-4": {
