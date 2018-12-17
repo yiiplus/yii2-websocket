@@ -17,7 +17,8 @@
     },
     "autoload": {
         "psr-4": {
-            "yiiplus\\websocket\\": "src"
+            "yiiplus\\websocket\\": "src",
+            "yiiplus\\websocket\\swoole": "src/drivers/swoole",
         }
     }
 }

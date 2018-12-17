@@ -8,9 +8,10 @@
  * @license   https://github.com/yiiplus/yii2-websocket/licence.txt Apache 2.0
  * @link      http://www.yiiplus.com
  */
-namespace yiiplus\websocket\components;
+namespace yiiplus\websocket\swoole;
 
 use yii\base\Component;
+use yiiplus\websocket\cli\WebSocket as CliWebSocket;
 
 /**
  * WebSocket客户端
@@ -52,7 +53,7 @@ use yii\base\Component;
  * @author gengxiankun <gengxiankun@126.com>
  * @since 1.0.0
  */
-class WebSocketClient extends Component
+class WebSocket extends CliWebSocket
 {
     /**
      * @var string PHPWebSocket客户端版本号
@@ -118,11 +119,11 @@ class WebSocketClient extends Component
     	parent::init();
 
         if (!isset($this->host)) {
-            thorw new 
+            throw new InvalidParamException('Host parameter does not exist.');
         }
 
         if (!isset($this->port)) {
-            thorw new 
+            throw new InvalidParamException('Port parameter does not exist.');
         }
 
     	$this->_key = $this->generateToken(self::TOKEN_LENGHT);
@@ -137,8 +138,7 @@ class WebSocketClient extends Component
     {
         // 建立连接
         $this->_socket = new \swoole_client(SWOOLE_SOCK_TCP);
-        if (!$this->_socket->connect($this->host, $this->port))
-        {
+        if (!$this->_socket->connect($this->host, $this->port)) {
             return false;
         }
         // 握手确认

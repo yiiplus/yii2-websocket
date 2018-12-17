@@ -8,10 +8,10 @@
  * @license   https://github.com/yiiplus/yii2-websocket/licence.txt Apache 2.0
  * @link      http://www.yiiplus.com
  */
-namespace yiiplus\websocket\controllers;
+namespace yiiplus\websocket\swoole;
 
 use yii\base\Component;
-use yii\console\Controller;
+use yiiplus\websocket\console\Controller as ConsoleController;
 
 /**
  * WebSocket Server 命令行控制器基类
@@ -46,55 +46,12 @@ use yii\console\Controller;
  * @author gengxiankun <gengxiankun@126.com>
  * @since 1.0.0
  */
-class WebSocketServerController extends Controller
+class Controller extends ConsoleController
 {
-    /**
-     * @var string Websocket host
-     */
-    public $host = '0.0.0.0';
-
-    /**
-     * @var integer Websocket端口号
-     */
-    public $port = 9501;
-
-    /**
-     * @var string 默认方法
-     */
-    public $defaultAction = 'start';
-
     /**
      * @var \Swoole\WebSocket\Server
      */
 	protected $_server;
-
-    /**
-     * 指定命令行参数
-     *
-     * @param string actionID
-     *
-     * @return array 返回指定的参数
-     */
-    public function options($actionID)
-    {
-        return [
-            'host',
-            'port'
-        ];
-    }
-
-    /**
-     * 为命令行的参数设置别名
-     *
-     * @return array 参数别名键值对
-     */
-    public function optionAliases()
-    {
-        return [
-            'h' => 'host',
-            'p' => 'port',
-        ];
-    }
 
     /**
      * 启动 WebSocket Server
