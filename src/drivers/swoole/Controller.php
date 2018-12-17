@@ -11,7 +11,7 @@
 namespace yiiplus\websocket\swoole;
 
 use yii\base\Component;
-use yiiplus\websocket\console\Controller as ConsoleController;
+use yiiplus\websocket\cli\Command as CliCommand;
 
 /**
  * WebSocket Server 命令行控制器基类
@@ -19,11 +19,11 @@ use yiiplus\websocket\console\Controller as ConsoleController;
  * 调用端通过在console主体下继承此类，实现相关回调方法，实现相关业务逻辑：
  *
  * ```php
- *  use yiiplus\websocket\controllers\WebSocketServerController;
+ *  use yiiplus\websocket\swoole\Controller;
  *
- *  class PushController extends WebSocketServerController
+ *  class PushController extends Controller
  *  {
- *       public function message(\Swoole\WebSocket\Server $server, $frame) 
+ *       public function message($server, $frame) 
  *       {
  *           foreach ($server->connections as $fd) {
  *               $server->push($fd, $frame->data);
@@ -38,15 +38,12 @@ use yiiplus\websocket\console\Controller as ConsoleController;
  *  ./yii push -h 173.18.19.1 -p 9503
  * ```
  *
- * @property string                   $host          WebSocket服务端HOST，默认为'0.0.0.0'，此参数可以在命令行指定
- * @property integer                  $port          WebSocket端口号，默认为'9501'，此参数可以在命令行指定
- * @property string                   $defaultAction 默认方法
  * @property \Swoole\WebSocket\Server $_server       WebSocket Server
  *
  * @author gengxiankun <gengxiankun@126.com>
  * @since 1.0.0
  */
-class Controller extends ConsoleController
+class Controller extends CliCommand
 {
     /**
      * @var \Swoole\WebSocket\Server
@@ -145,7 +142,7 @@ class Controller extends ConsoleController
      *
      * @return null
      */
-    public function message(\Swoole\WebSocket\Server $server, \swoole_websocket_frame $frame) 
+    public function message($server, $frame)
     {
         echo "received " . strlen($frame->data) . " bytes\n";
     }
