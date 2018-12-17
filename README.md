@@ -29,7 +29,7 @@ use yiiplus\websocket\swoole\Controller;
 
 class PushController extends Controller
 {
-     public function message(\Swoole\WebSocket\Server $server, $frame) 
+     public function message($server, $frame) 
      {
          foreach ($server->connections as $fd) {
              $server->push($fd, $frame->data);
