@@ -2,7 +2,7 @@
 
 在 yii2 下运行 WebSocket 服务。
 
-它目前支持基于[swoole](www.swoole.com)的 WebSocket 服务。
+它目前支持基于 [swoole](www.swoole.com) 的 WebSocket 服务。
 
 ## 安装
 
