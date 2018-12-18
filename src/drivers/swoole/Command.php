@@ -10,32 +10,17 @@
  */
 namespace yiiplus\websocket\swoole;
 
-use yii\base\Component;
+use yii\base\Exception;
+use yii\base\InvalidArgumentException;
 use yiiplus\websocket\cli\Command as CliCommand;
 
 /**
- * WebSocket Server 命令行控制器基类
- *
- * 调用端通过在console主体下继承此类，实现相关回调方法，实现相关业务逻辑：
- *
- * ```php
- *  use yiiplus\websocket\swoole\Controller;
- *
- *  class PushController extends Controller
- *  {
- *       public function message($server, $frame) 
- *       {
- *           foreach ($server->connections as $fd) {
- *               $server->push($fd, $frame->data);
- *           }
- *       }  
- *  }
- * ```
+ * WebSocket Server Command
  *
  * 从命令行启动 WebSocket Server：
  *
  * ```bash
- *  ./yii push -h 173.18.19.1 -p 9503
+ *  yii websocket/start -h 173.18.19.1 -p 9503
  * ```
  *
  * @property \Swoole\WebSocket\Server $_server       WebSocket Server
@@ -43,7 +28,7 @@ use yiiplus\websocket\cli\Command as CliCommand;
  * @author gengxiankun <gengxiankun@126.com>
  * @since 1.0.0
  */
-class Controller extends CliCommand
+class Command extends CliCommand
 {
     /**
      * @var \Swoole\WebSocket\Server
@@ -67,7 +52,7 @@ class Controller extends CliCommand
 
         $this->_server->on('close', [$this, 'close']);
 
-        echo 'websocket service has started, host is ' . $this->host . ' port is ' . $this->port . PHP_EOL;
+        echo '[info] websocket service has started, host is ' . $this->host . ' port is ' . $this->port . PHP_EOL;
 
         $this->_server->start();
     }
@@ -117,7 +102,7 @@ class Controller extends CliCommand
         $response->status(101);
         $response->end();
         
-        echo "server: handshake success with fd{$request->fd}\n";
+        echo "[info] handshake success with fd{$request->fd}\n";
         return true;
     }
 
@@ -131,20 +116,7 @@ class Controller extends CliCommand
      */
     public function open(\swoole_websocket_server $server, \swoole_http_response $request) 
     {
-        echo "server: handshake success with fd{$request->fd}\n";
-    }
-
-    /**
-     * 当服务器收到来自客户端的数据帧时会回调此函数
-     *
-     * @param swoole_websocket_server $server WebSocket Server
-     * @param swoole_websocket_frame. $frame  swoole_websocket_frame对象，包含了客户端发来的数据帧信息 
-     *
-     * @return null
-     */
-    public function message($server, $frame)
-    {
-        echo "received " . strlen($frame->data) . " bytes\n";
+        echo "[info] handshake success with fd{$request->fd}\n";
     }
 
     /**
@@ -157,6 +129,6 @@ class Controller extends CliCommand
      */
     public function close(\Swoole\WebSocket\Server $server, $fd) 
     {
-        echo "client {$fd} closed\n";
+        echo "[closed] client {$fd} closed\n";
     }
 }

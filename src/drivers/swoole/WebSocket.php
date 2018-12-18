@@ -13,15 +13,15 @@ namespace yiiplus\websocket\swoole;
 use yiiplus\websocket\cli\WebSocket as CliWebSocket;
 
 /**
- * WebSocket 客户端组件类
+ * Swoole WebSocket 客户端组建类
  *
- * 使用 WebSocket 客户端，需要注册此类到 components 配置中：
+ * 使用WebSocket客户端，需要注册此类到components配置中：
  *
  * ```php
  *  'components' => [
  *      ...
- *      'websocket' => [
- *          'class' => 'yiiplus\websocket\swoole\WebSocket',
+ *      'websocket_client' => [
+ *          'class' => 'yiiplus\websocket\components\WebSocketClient',
  *          'host' => '127.0.0.1',
  *          'port' => '9501',
  *          'path' => '/',
@@ -31,21 +31,21 @@ use yiiplus\websocket\cli\WebSocket as CliWebSocket;
  *  ],
  * ```
  *
- * 然后通过 components 的方式调用：
+ * 然后通过components的方式调用：
  *
  * ```php
- *  $websocketClient = \Yii::$app->websocket;
+ *  $websocketClient = \Yii::$app->websocket_client;
  *  $websocketClient->connect();
  *  $websocketClient->send('TEST');
  * ```
  *
- * @property string        $host           WebSocket 服务端 HOST，此参数必须在 components 配置中设置
- * @property integer       $port           WebSocket 服务端端口号，此参数必须在 components 配置中设置
- * @property string        $path           WebSocket Request-URI，默认为'/'，可通过 components 配置设置此参数
- * @property string        $origin         string Header Origin，默认为null，可通过 components 配置设置此参数
+ * @property string        $host           WebSocket服务端HOST，此参数必须在components配置中设置
+ * @property integer       $port           WebSocket服务端端口号，此参数必须在components配置中设置
+ * @property string        $path           WebSocket Request-URI，默认为'/'，可通过components配置设置此参数
+ * @property string        $origin         string Header Origin，默认为null，可通过components配置设置此参数
  * @property mixed         $returnData     返回数据
  * @property mixed         $_key Websocket Sec-WebSocket-Key
- * @property swoole_client $_socket        WebSocket 客户端
+ * @property swoole_client $_socket        WebSocket客户端
  * @property mixed         $_buffer        用于对`recv`方法获取服务器接受到的数据进行缓存
  * @property mixed         $_connected     链接的状态
  *
@@ -55,22 +55,22 @@ use yiiplus\websocket\cli\WebSocket as CliWebSocket;
 class WebSocket extends CliWebSocket
 {
     /**
-     * @var string PHPWebSocket 客户端版本号
+     * @var string PHPWebSocket客户端版本号
      */
 	const VERSION = '0.1.4';
 
     /**
-     * @var integer 生成 TOKEN 的长度
+     * @var integer 生成TOKEN的长度
      */
     const TOKEN_LENGHT = 16;
 
     /**
-     * @var string WebSocket 服务端HOST
+     * @var string WebSocket服务端HOST
      */
     public $host;
 
     /**
-     * @var integer WebSocket 服务端端口号
+     * @var integer WebSocket服务端端口号
      */
     public $port;
 
@@ -84,24 +84,31 @@ class WebSocket extends CliWebSocket
      */
     public $origin = null;
 
+    public $channels = [];
+
     /**
      * @var mixed 返回数据
      */
     public $returnData = false;
 
     /**
+     * @var string command class name
+     */
+    public $commandClass = Command::class;
+
+    /**
      * @var string Websocket Sec-WebSocket-Key
-     * Sec-WebSocket-Key 是客户端也就是浏览器或者其他终端随机生成一组16位的随机 base64 编码
+     * Sec-WebSocket-Key是客户端也就是浏览器或者其他终端随机生成一组16位的随机base64编码
      */
     private $_key;
 
     /**
-     * @var swoole_client Swoole 客户端
+     * @var swoole_client Swoole客户端
      */
     private $_socket;
 
     /**
-     * @var mixed 用于对`recv`获取服务器接受到的数据进行缓存
+     * @var mixed 用于对recv获取服务器接受到的数据进行缓存
      */
     private $_buffer = '';
 
@@ -177,7 +184,7 @@ class WebSocket extends CliWebSocket
     }
 
     /**
-     * 为 WebSocket 客户端创建 TCP Header
+     * 为WebSocket客户端创建Header
      *
      * @return string
      */
@@ -314,9 +321,9 @@ class WebSocket extends CliWebSocket
     /**
      * 生成Token
      *
-     * @param int $length 生成 TOKEN 的长度，默认16位
+     * @param int $length 生成Token的长度，默认16位
      *
-     * @return string 返回生成的 TOKEN 值
+     * @return string 返回生成的Token值
      */
     private function generateToken($length)
     {

@@ -17,6 +17,7 @@ use yii\console\Application as ConsoleApp;
 use yii\helpers\Inflector;
 use yiiplus\websocket\WebSocket as BaseWebSocket;
 
+
 /**
  * WebSocket Client 抽象类
  *
@@ -26,12 +27,17 @@ use yiiplus\websocket\WebSocket as BaseWebSocket;
 abstract class WebSocket extends BaseWebSocket implements BootstrapInterface
 {
 	/**
-     * FIXME @var string command class name
+     * @var string command class name
      */
     public $commandClass = Command::class;
 
+    /**
+     * @var array of additional options of command
+     */
+    public $commandOptions = [];
+
 	/**
-     * FIXME 获取CommandId
+     * 获取CommandId
      *
      * @return string command id
      *
@@ -48,7 +54,7 @@ abstract class WebSocket extends BaseWebSocket implements BootstrapInterface
     }
 
     /**
-     * FIXME ConsoleApp引导
+     * ConsoleApp 引导程序
      */
     public function bootstrap($app)
     {
