@@ -1,28 +1,4 @@
-# yii2-websocket
-
-在 yii2 下运行 WebSocket 服务。
-
-它目前支持基于 [Swoole](www.swoole.com) 的 WebSocket 服务。
-
-文档位于[docs/guide/README.md](docs/guide/README.md)。
-
-## 安装
-
-安装此扩展程序的首选方法是通过 [composer](http://getcomposer.org/download/).
-
-编辑运行
-
-```bash
-php composer.phar require --prefer-dist yiiplus/yii2-websocket "^1.0.0"
-```
-
-或添加配置到项目目录下的`composer.json`文件的 require 部分
-
-```
-"yiiplus/yii2-websocket": "^1.0.0"
-```
-
-## 基本使用
+# 基本使用
 
 每个 channel 的功能都需要定义一个单独的类。例如，如果你需要为所有客户端推送一条消息，则该类可能如下所示：
 
@@ -58,5 +34,3 @@ $websocket->send(json_encode([
 ```bash
 yii websocket/start
 ```
-
-有关驱动程序特定控制台命令及其选项的更多详细信息，请参阅文档。

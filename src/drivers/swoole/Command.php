@@ -20,7 +20,7 @@ use yiiplus\websocket\cli\Command as CliCommand;
  * 从命令行启动 WebSocket Server：
  *
  * ```bash
- *  yii websocket/start -h 173.18.19.1 -p 9503
+ *  yii websocket/start
  * ```
  *
  * @property \Swoole\WebSocket\Server $_server       WebSocket Server
