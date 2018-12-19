@@ -8,18 +8,18 @@
 
 ```php
 return [
-  'bootstrap' => [
-  	'websocket',
-  ],
-  'compoents' => [
-	'websocket' => [
-	  'class' => '\yiiplus\websocket\swoole\WebSocket',
-	  'host' => '127.0.0.1',
-	  'port' => 9501,
-	  'channel' => [
-		...
-	  ],
+	'bootstrap' => [
+		'websocket',
 	],
-  ],
+	'compoents' => [
+		'websocket' => [
+			'class' => '\yiiplus\websocket\swoole\WebSocket',
+			'host' => '127.0.0.1',
+			'port' => 9501,
+			'channel' => [
+				...
+			],
+		],
+	],
 ];
 ```

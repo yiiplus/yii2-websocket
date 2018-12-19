@@ -4,19 +4,19 @@
 
 ```php
 return [
-  'bootstrap' => [
-	'websocket',
-  ],
-  'compoents' => [
-	'websocket' => [
-	  'class' => '\yiiplus\websocket\swoole\WebSocket',
-	  'host' => '127.0.0.1',
-	  'port' => 9501,
-	  'channel' => [
-		'push-message' => '\common\channels\PushMessageChannel', // 配置 channel 对应的执行类
-	  ],
-  	],
-  ],
+    'bootstrap' => [
+        'websocket',
+    ],
+    'compoents' => [
+        'websocket' => [
+            'class' => '\yiiplus\websocket\swoole\WebSocket',
+            'host' => '127.0.0.1',
+            'port' => 9501,
+            'channel' => [
+                'push-message' => '\common\channels\PushMessageChannel', // 配置 channel 对应的执行类
+            ],
+      ],
+    ],
 ];
 ```
 
@@ -31,12 +31,12 @@ namespace common\channels;
 
 class PushMessageChannel extends BaseObject implements \yiiplus\websocket\ChannelInterface
 {
-  public function execute($server, $frame)
-  {
-	foreach ($server->connections as $fd) {
-      $server->push($fd, json_decode($frame->data)->message);
+    public function execute($server, $frame)
+    {
+        foreach ($server->connections as $fd) {
+            $server->push($fd, json_decode($frame->data)->message);
+        }
     }
-  }
 }
 ```
 
@@ -50,8 +50,8 @@ $websocket = Yii::$app->websocket;
 $websocket->connect;
 
 $websocket->send(json_encode([
-  'channel' => 'push-message', // 指定渠道，需要提前配置渠道对应的 channel 类
-  'message' => '用户 xxx 送了一台飞机！'
+    'channel' => 'push-message', // 指定渠道，需要提前配置渠道对应的 channel 类
+    'message' => '用户 xxx 送了一台飞机！'
 ]));
 ```
 
