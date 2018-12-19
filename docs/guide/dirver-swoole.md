@@ -4,7 +4,7 @@
 
 您需要安装 [Swoole](www.swoole.com) 扩展到你的php中。
 
-配置实例：
+## 配置实例
 
 ```php
 return [

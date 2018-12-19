@@ -4,7 +4,7 @@
 
 它目前支持基于 [Swoole](www.swoole.com) 的 WebSocket 服务。
 
-文档位于[docs/guide/README.md](docs/guide/README.md)。
+文档位于 [docs/guide/README.md](docs/guide/README.md)。
 
 ## 安装
 
@@ -27,6 +27,8 @@ php composer.phar require --prefer-dist yiiplus/yii2-websocket "^1.0.0"
 每个 channel 的功能都需要定义一个单独的类。例如，如果你需要为所有客户端推送一条消息，则该类可能如下所示：
 
 ```php
+namespace common\channels;
+
 class PushMessageChannel extends BaseObject implements \yiiplus\websocket\ChannelInterface
 {
 	public function execute($server, $frame)

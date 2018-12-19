@@ -1,8 +1,34 @@
 # 基本使用
 
-每个 channel 的功能都需要定义一个单独的类。例如，如果你需要为所有客户端推送一条消息，则该类可能如下所示：
+## 配置
 
 ```php
+return [
+	'bootstrap' => [
+		'websocket',
+	],
+	'compoents' => [
+		'websocket' => [
+			'class' => '\yiiplus\websocket\swoole\WebSocket',
+			'host' => '127.0.0.1',
+			'port' => 9501,
+			'channel' => [
+				'push-message' => '\common\channels\PushMessageChannel', // 配置 channel 对应的执行类
+			],
+		],
+	],
+];
+```
+
+## 定义 channel 执行类
+
+每个 channel 的功能都需要定义一个单独的类，WebSocket Server 会通过客户端传来的 channel 参数解析。
+
+例如，如果你需要为所有客户端推送一条消息，则该类可能如下所示：
+
+```php
+namespace common\channels;
+
 class PushMessageChannel extends BaseObject implements \yiiplus\websocket\ChannelInterface
 {
 	public function execute($server, $frame)
@@ -14,7 +40,9 @@ class PushMessageChannel extends BaseObject implements \yiiplus\websocket\Channe
 }
 ```
 
-以下是从客户端发送消息的方法：
+> 定义好的执行类需要注册到 compoents 配置中的 [channel](#配置) 下。
+
+## 客户端发送 channel 消息，触发任务
 
 ```php
 $websocket = Yii::$app->websocket;
@@ -26,6 +54,8 @@ $websocket->send(json_encode([
 	'message' => '用户 xxx 送了一台飞机！'
 ]));
 ```
+
+## 控制台执行
 
 执行任务的确切方式取决于使用的驱动程序。 大多数驱动程序可以使用控制台命令运行，组件需要在应用程序中注册。
 
