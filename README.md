@@ -43,14 +43,7 @@ class PushMessageChannel extends BaseObject implements \yiiplus\websocket\Channe
 以下是从客户端发送消息的方法：
 
 ```php
-$websocket = Yii::$app->websocket;
-
-$websocket->connect;
-
-$websocket->send(json_encode([
-	'channel' => 'push-message', // 指定渠道，需要提前配置渠道对应的 channel 类
-	'message' => '用户 xxx 送了一台飞机！'
-]));
+Yii::$app->websocket->send(['channel' => 'push-message', 'message' => '用户 xxx 送了一台飞机！']);
 ```
 
 执行任务的确切方式取决于使用的驱动程序。 大多数驱动程序可以使用控制台命令运行，组件需要在应用程序中注册。

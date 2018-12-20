@@ -133,6 +133,8 @@ class WebSocket extends CliWebSocket
         }
 
     	$this->_key = $this->generateToken(self::TOKEN_LENGHT);
+
+        $this->connect();
     }
 
     /**
@@ -140,7 +142,7 @@ class WebSocket extends CliWebSocket
      *
      * @return $this
      */
-    public function connect()
+    protected function connect()
     {
         // 建立连接
         $this->_socket = new \swoole_client(SWOOLE_SOCK_TCP);
@@ -180,7 +182,7 @@ class WebSocket extends CliWebSocket
         }
 
         // 将WebSocket消息打包并发送
-        return $this->_socket->send(\swoole_websocket_server::pack($data, $_type, true, $masked));
+        return $this->_socket->send(\swoole_websocket_server::pack(json_encode($data), $_type, true, $masked));
     }
 
     /**
