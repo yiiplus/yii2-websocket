@@ -10,6 +10,7 @@
  */
 namespace yiiplus\websocket\workerman;
 
+use Yii;
 use Workerman\Worker;
 use Workerman\Connection\AsyncTcpConnection;
 use yiiplus\websocket\cli\WebSocket as CliWebSocket;
@@ -22,12 +23,10 @@ use yiiplus\websocket\cli\WebSocket as CliWebSocket;
  * ```php
  *  'components' => [
  *      ...
- *      'websocket_client' => [
- *          'class' => 'yiiplus\websocket\components\WebSocketClient',
+ *      'websocket' => [
+ *          'class' => 'yiiplus\websocket\workerman\WebSocket',
  *          'host' => '127.0.0.1',
  *          'port' => '9501',
- *          'path' => '/',
- *          'origin' => null,
  *      ],
  *      ...
  *  ],
@@ -36,9 +35,8 @@ use yiiplus\websocket\cli\WebSocket as CliWebSocket;
  * 然后通过components的方式调用：
  *
  * ```php
- *  $websocketClient = \Yii::$app->websocket_client;
- *  $websocketClient->connect();
- *  $websocketClient->send('TEST');
+ *  $websocketClient = \Yii::$app->websocket;
+ *  $websocketClient->send(['channel' => 'yiiplus', 'message' => 'hello websocket!']);
  * ```
  *
  * @property string        $host           WebSocket服务端HOST，此参数必须在components配置中设置
@@ -57,21 +55,43 @@ use yiiplus\websocket\cli\WebSocket as CliWebSocket;
 class WebSocket extends CliWebSocket
 {
     /**
-     * @var string WebSocket服务端HOST
+     * @var string WebSocket 服务端HOST
      */
     public $host;
 
     /**
-     * @var integer WebSocket服务端端口号
+     * @var integer WebSocket 服务端端口号
      */
     public $port;
+
+    /**
+     * @var string WebSocket Request-URI
+     */
+    public $path = '/';
+
+    /**
+     * @var string Header Origin
+     */
+    public $origin = null;
+
+    /**
+     * @var array 客户端组件类配置，因为 workerman 不支持 php-fpm 运行环境下的同步客户端，所以 workerman 的使用 swoole 驱动的客户端
+     */
+    public $client = [
+        'class' => 'yiiplus\websocket\workerman\WebSocket'
+    ];
+
+    /**
+     * @var string command class name
+     */
+    public $commandClass = Command::class;
 
     /**
      * 对象初始化
      */
     public function init()
     {
-    	parent::init();
+        parent::init();
 
         if (!isset($this->host)) {
             throw new InvalidParamException('Host parameter does not exist.');
@@ -80,24 +100,29 @@ class WebSocket extends CliWebSocket
         if (!isset($this->port)) {
             throw new InvalidParamException('Port parameter does not exist.');
         }
+    }
 
-        $worker = new Worker();
+    /**
+     * 向服务器发送数据
+     *
+     * @param string $data   发送的数据
+     * @param string $type   发送的类型
+     * @param bool   $masked 是否设置掩码
+     *
+     * @return bool 是否发送成功的状态
+     */
+    public function send($data, $type = 'text', $masked = false)
+    {
+        // workerman需要设置掩码
+        $masked = true;
 
-        $worker->onWorkerStart = function($worker){
-
-           $con = new AsyncTcpConnection('ws://' . $this->host . ':' . $this->port);
-
-            $con->onConnect = function($con) {
-                $con->send('hello');
-            };
-
-            $con->onMessage = function($con, $data) {
-                echo $data;
-            };
-
-            $con->connect();
-        };
-
-        Worker::runAll();
+        // 创建 swoole WebSocket 客户端发送数据
+        return Yii::createObject([
+            'class' => $this->client['class'],
+            'host' => $this->host,
+            'port' => $this->port,
+            'path' => $this->path,
+            'origin' => $this->origin,
+        ])->send($data, $type, $masked);
     }
 }

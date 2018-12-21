@@ -21,8 +21,8 @@ interface ChannelInterface
     /**
      * 处理该 channel 的 WebSocket 信息
      *
-     * @param object $server WebSocket Server
-     * @param object $frame  客户端发来的数据帧信息
+     * @param integer $fd   客户端连接描述符
+     * @param object  $data 客户端发送的服务器的消息内容
      */
-    public function execute($server, $frame);
+    public function execute($fd, $data);
 }

@@ -22,11 +22,6 @@ use yii\base\Component;
 abstract class WebSocket extends Component
 {
 	/**
-	 * 连接 WebSocket Server
-	 */
-	abstract public function connect();
-
-	/**
 	 * 发送数据到WebSocket
 	 *
 	 * @param mixed  $data 发送的数据

@@ -17,12 +17,6 @@ use yiiplus\websocket\cli\Command as CliCommand;
 /**
  * WebSocket Server Command
  *
- * 从命令行启动 WebSocket Server：
- *
- * ```bash
- *  yii websocket/start
- * ```
- *
  * @property \Swoole\WebSocket\Server $_server       WebSocket Server
  *
  * @author gengxiankun <gengxiankun@126.com>
@@ -102,7 +96,7 @@ class Command extends CliCommand
         $response->status(101);
         $response->end();
         
-        echo "[info] handshake success with fd{$request->fd}\n";
+        echo '[info] handshake success with fd{$request->fd}' . PHP_EOL;
         return true;
     }
 
@@ -116,7 +110,40 @@ class Command extends CliCommand
      */
     public function open(\swoole_websocket_server $server, \swoole_http_response $request) 
     {
-        echo "[info] handshake success with fd{$request->fd}\n";
+        echo '[info] handshake success with fd{$request->fd}' . PHP_EOL;
+    }
+
+    /**
+     * 当服务器收到来自客户端的数据帧时会回调此函数
+     *
+     * @param object $server WebSocket Server
+     * @param object $frame  frame对象，包含了客户端发来的数据帧信息
+     *
+     * @return null/bool
+     */
+    public function message($server, $frame)
+    {
+        $class = $this->channelResolve($frame->data);
+
+        list($fds, $data) = call_user_func([$class, 'execute'], $frame->fd, $frame->data);
+
+        if (!is_array($fds)) {
+            $fds = array($fds);
+        }
+
+        foreach ($fds as $fd) {
+            if (!is_integer($fd)) {
+                echo '[error] client_id format error.' . PHP_EOL;
+                return false;
+            }
+
+            if (!$server->push($fd, $data)) {
+                echo '[error] client_id ' . $fd . ' send failure.' . PHP_EOL;
+                return false;
+            }
+        }
+
+        echo '[success] client_id ' . $fd . ' send success.' . PHP_EOL;
     }
 
     /**
@@ -129,6 +156,6 @@ class Command extends CliCommand
      */
     public function close(\Swoole\WebSocket\Server $server, $fd) 
     {
-        echo "[closed] client {$fd} closed\n";
+        echo '[closed] client {$fd} closed' . PHP_EOL;
     }
 }

@@ -21,6 +21,10 @@ use yiiplus\websocket\WebSocket as BaseWebSocket;
 /**
  * WebSocket Client 抽象类
  *
+ * @property string $commandClass   command class name
+ * @property array  $commandOptions of additional options of command
+ * @property array  $channels       channel 执行类
+ *
  * @author gengxiankun@126.com
  * @since 1.0.0
  */
@@ -34,7 +38,12 @@ abstract class WebSocket extends BaseWebSocket implements BootstrapInterface
     /**
      * @var array of additional options of command
      */
-    public $commandOptions = [];
+    public $commandOptions = []
+
+    /**
+     * @var array channel 执行类
+     */
+    public $channels = [];
 
 	/**
      * 获取CommandId
@@ -50,7 +59,7 @@ abstract class WebSocket extends BaseWebSocket implements BootstrapInterface
                 return Inflector::camel2id($id);
             }
         }
-        throw new InvalidConfigException('Queue must be an application component.');
+        throw new InvalidConfigException('WebSocket must be an application component.');
     }
 
     /**

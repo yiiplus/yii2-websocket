@@ -2,7 +2,7 @@
 
 在 yii2 下运行 WebSocket 服务。
 
-它目前支持基于 [swoole](https://www.swoole.com) 的 WebSocket 服务。
+支持基于 [swoole](https://www.swoole.com) [workerman](https://www.workerman.net/) 的 WebSocket 服务。
 
 文档位于 [docs/guide/README.md](docs/guide/README.md)。
 
@@ -31,12 +31,6 @@ namespace common\channels;
 
 class PushMessageChannel extends BaseObject implements \yiiplus\websocket\ChannelInterface
 {
-  	public function execute($server, $frame)
-  	{
-		foreach ($server->connections as $fd) {
-	  		$server->push($fd, json_decode($frame->data)->message);
-		}
-  	}
 }
 ```
 

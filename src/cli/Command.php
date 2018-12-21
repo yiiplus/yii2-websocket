@@ -47,11 +47,6 @@ abstract class Command extends Controller
     public $defaultAction = 'start';
 
     /**
-     * @var \Swoole\WebSocket\Server
-     */
-    protected $_server;
-
-    /**
      * 指定命令行参数
      *
      * @param string actionID
@@ -101,25 +96,11 @@ abstract class Command extends Controller
     }
 
     /**
-     * 当服务器收到来自客户端的数据帧时会回调此函数
-     *
-     * @param object $server WebSocket Server
-     * @param object $frame  frame对象，包含了客户端发来的数据帧信息
-     *
-     * @return null
-     */
-    public function message($server, $frame)
-    {
-        $class = $this->channelResolve($frame->data);
-        call_user_func([$class, 'execute'], $server, $frame);
-    }
-
-    /**
      * channel 解析
      *
      * @param json $data 客户端传来的数据
      *
-     * @return string channel 类名
+     * @return object channel 执行类对象
      */
     public function channelResolve($data)
     {
@@ -149,6 +130,6 @@ abstract class Command extends Controller
             return false;
         }
 
-        return $className;
+        return $class;
     }
 }

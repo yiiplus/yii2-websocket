@@ -20,23 +20,16 @@ use yiiplus\websocket\cli\WebSocket as CliWebSocket;
  * ```php
  *  'components' => [
  *      ...
- *      'websocket_client' => [
- *          'class' => 'yiiplus\websocket\components\WebSocketClient',
+ *      'webslocket' => [
+ *          'class' => 'yiiplus\websocket\swoole\WebSocket',
  *          'host' => '127.0.0.1',
  *          'port' => '9501',
  *          'path' => '/',
  *          'origin' => null,
+ *          'channels' => [],
  *      ],
  *      ...
  *  ],
- * ```
- *
- * 然后通过components的方式调用：
- *
- * ```php
- *  $websocketClient = \Yii::$app->websocket_client;
- *  $websocketClient->connect();
- *  $websocketClient->send('TEST');
  * ```
  *
  * @property string        $host           WebSocket服务端HOST，此参数必须在components配置中设置
@@ -55,12 +48,12 @@ use yiiplus\websocket\cli\WebSocket as CliWebSocket;
 class WebSocket extends CliWebSocket
 {
     /**
-     * @var string PHPWebSocket客户端版本号
+     * @const string PHPWebSocket客户端版本号
      */
 	const VERSION = '0.1.4';
 
     /**
-     * @var integer 生成TOKEN的长度
+     * @const integer 生成TOKEN的长度
      */
     const TOKEN_LENGHT = 16;
 
@@ -83,8 +76,6 @@ class WebSocket extends CliWebSocket
      * @var string Header Origin
      */
     public $origin = null;
-
-    public $channels = [];
 
     /**
      * @var mixed 返回数据
@@ -133,8 +124,6 @@ class WebSocket extends CliWebSocket
         }
 
     	$this->_key = $this->generateToken(self::TOKEN_LENGHT);
-
-        $this->connect();
     }
 
     /**
@@ -165,6 +154,8 @@ class WebSocket extends CliWebSocket
      */
     public function send($data, $type = 'text', $masked = false)
     {
+        $this->connect();
+        
         switch($type)
         {
             case 'text':
