@@ -2,6 +2,10 @@
 
 在 yii2 下运行 WebSocket 服务。
 
+[![Latest Stable Version](https://poser.pugx.org/yiiplus/yii2-websocket/v/stable)](https://packagist.org/packages/yiiplus/yii2-websocket)
+[![Total Downloads](https://poser.pugx.org/yiiplus/yii2-websocket/downloads)](https://packagist.org/packages/yiiplus/yii2-websocket)
+[![License](https://poser.pugx.org/yiiplus/yii2-websocket/license)](https://packagist.org/packages/yiiplus/yii2-websocket)
+
 ## 驱动支持
 - [swoole](docs/guide/dirver-swoole.md)
 - [workerman](docs/guide/dirver-workerman.md)
