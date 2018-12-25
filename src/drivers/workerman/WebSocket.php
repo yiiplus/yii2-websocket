@@ -78,7 +78,7 @@ class WebSocket extends CliWebSocket
      * @var array 客户端组件类配置，因为 workerman 不支持 php-fpm 运行环境下的同步客户端，所以 workerman 的使用 swoole 驱动的客户端
      */
     public $client = [
-        'class' => 'yiiplus\websocket\workerman\WebSocket'
+        'class' => 'yiiplus\websocket\swoole\WebSocket'
     ];
 
     /**

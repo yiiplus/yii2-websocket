@@ -9,11 +9,11 @@ return [
     ],
     'compoents' => [
         'websocket' => [
-            'class' => '\yiiplus\websocket\swoole\WebSocket',
+            'class' => '\yiiplus\websocket\<dirver>\WebSocket',
             'host' => '127.0.0.1',
             'port' => 9501,
             'channel' => [
-                'push-message' => '\common\channels\PushMessageChannel', // 配置 channel 对应的执行类
+                'push-message' => '\xxx\channels\PushMessageChannel', // 配置 channel 对应的执行类
             ],
       ],
     ],
@@ -27,16 +27,17 @@ return [
 例如，如果你需要为所有客户端推送一条消息，则该类可能如下所示：
 
 ```php
-namespace common\channels;
+namespace xxx\channels;
 
 class PushMessageChannel extends BaseObject implements \yiiplus\websocket\ChannelInterface
 {
-    public function execute($server, $frame)
+    public function execute($fd, $data)
     {
-        foreach ($server->connections as $fd) {
-            $server->push($fd, json_decode($frame->data)->message);
-        }
-    }
+        return [
+            $fd, // 第一个参数返回客户端ID，多个以数组形式返回
+            $data // 第二个参数返回需要返回给客户端的消息
+        ];
+    } 
 }
 ```
 
@@ -45,14 +46,7 @@ class PushMessageChannel extends BaseObject implements \yiiplus\websocket\Channe
 ## 客户端发送 channel 消息，触发任务
 
 ```php
-$websocket = Yii::$app->websocket;
-
-$websocket->connect;
-
-$websocket->send(json_encode([
-    'channel' => 'push-message', // 指定渠道，需要提前配置渠道对应的 channel 类
-    'message' => '用户 xxx 送了一台飞机！'
-]));
+Yii::$app->websocket->send(['channel' => 'push-message', 'message' => '用户 xxx 送了一台飞机！']);
 ```
 
 ## 控制台执行

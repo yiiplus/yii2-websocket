@@ -2,9 +2,9 @@
 
 在 yii2 下运行 WebSocket 服务。
 
-支持基于 [swoole](https://www.swoole.com) [workerman](https://www.workerman.net/) 的 WebSocket 服务。
-
-文档位于 [docs/guide/README.md](docs/guide/README.md)。
+## 驱动支持
+- [swoole](https://www.swoole.com)
+- [workerman](https://www.workerman.net/)
 
 ## 安装
 
@@ -27,10 +27,17 @@ php composer.phar require --prefer-dist yiiplus/yii2-websocket "^1.0.0"
 每个 channel 的功能都需要定义一个单独的类。例如，如果你需要为所有客户端推送一条消息，则该类可能如下所示：
 
 ```php
-namespace common\channels;
+namespace xxx\channels;
 
 class PushMessageChannel extends BaseObject implements \yiiplus\websocket\ChannelInterface
 {
+	public function execute($fd, $data)
+	{
+		return [
+			$fd, // 第一个参数返回客户端ID，多个以数组形式返回
+			$data // 第二个参数返回需要返回给客户端的消息
+		];
+	} 
 }
 ```
 
@@ -48,4 +55,4 @@ Yii::$app->websocket->send(['channel' => 'push-message', 'message' => '用户 xx
 yii websocket/start
 ```
 
-有关驱动程序特定控制台命令及其选项的更多详细信息，请参阅文档。
+有关驱动程序特定控制台命令及其选项的更多详细信息，请参阅 [文档](docs/guide/)。
