@@ -2,7 +2,7 @@
 
 驱动程序使用 Swoole 的 WebSocket。
 
-您需要安装 [Swoole](www.swoole.com) 扩展到你的php中。
+您需要安装 [Swoole](https://www.swoole.com/) 扩展到你的php中。
 
 ## 配置实例
 
