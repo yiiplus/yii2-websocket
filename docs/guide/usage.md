@@ -37,11 +37,18 @@ class PushMessageChannel extends BaseObject implements \yiiplus\websocket\Channe
             $fd, // 第一个参数返回客户端ID，多个以数组形式返回
             $data // 第二个参数返回需要返回给客户端的消息
         ];
-    } 
+    }
+
+    public function close($fd)
+    {
+        return;
+    }
 }
 ```
 
 > 定义好的执行类需要注册到 compoents 配置中的 [channel](#配置) 下。
+
+当客户端断开连接时会触发所有 channels 下的 `close` 方法，用于清理客户端在服务器上与业务的绑定关系。
 
 ## 客户端发送 channel 消息，触发任务
 
