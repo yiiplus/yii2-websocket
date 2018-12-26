@@ -95,7 +95,7 @@ class Command extends CliCommand
      */
     public function connect($connection) 
     {
-        echo '[info] new connection' . PHP_EOL;
+        echo '[info] new connection, fd' . $connection->id . PHP_EOL;
     }
 
     /**

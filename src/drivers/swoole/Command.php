@@ -96,7 +96,7 @@ class Command extends CliCommand
         $response->status(101);
         $response->end();
         
-        echo '[info] handshake success with fd{$request->fd}' . PHP_EOL;
+        echo '[info] handshake success with fd ' . $request->fd . PHP_EOL;
         return true;
     }
 
@@ -110,7 +110,7 @@ class Command extends CliCommand
      */
     public function open(\swoole_websocket_server $server, \swoole_http_response $request) 
     {
-        echo '[info] handshake success with fd{$request->fd}' . PHP_EOL;
+        echo '[info] new connection, fd' . $request->fd . PHP_EOL;
     }
 
     /**
