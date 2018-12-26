@@ -38,7 +38,7 @@ abstract class WebSocket extends BaseWebSocket implements BootstrapInterface
     /**
      * @var array of additional options of command
      */
-    public $commandOptions = []
+    public $commandOptions = [];
 
     /**
      * @var array channel 执行类
