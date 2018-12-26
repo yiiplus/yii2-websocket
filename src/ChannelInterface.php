@@ -25,4 +25,11 @@ interface ChannelInterface
      * @param object  $data 客户端发送的服务器的消息内容
      */
     public function execute($fd, $data);
+
+    /**
+     * 客户端断开连接触发此方法
+     *
+     * @param integer $fd 客户端连接描述符
+     */
+    public function close($fd);
 }

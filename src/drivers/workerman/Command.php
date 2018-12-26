@@ -108,20 +108,15 @@ class Command extends CliCommand
      */
     public function message($connection, $data)
     {
-        $class = $this->channelResolve($data);
+        $result = $this->triggerMessage($connection->fd, $data);
 
-        list($fds, $data) = call_user_func([$class, 'execute'], $connection->id, $data);
-        
-        if (!is_array($fds)) {
-            $fds = array($fds);
+        if (!$result) {
+            return false;
         }
 
-        foreach ($fds as $fd) {
-            if (!is_integer($fd)) {
-                echo '[error] client_id format error.' . PHP_EOL;
-                return false;
-            }
+        list($fds, $data) = $result;
 
+        foreach ($fds as $fd) {
             if (!$this->_server->connections[$fd]->send($data)) {
                 echo '[error] client_id ' . $fd . ' send failure.' . PHP_EOL;
                 return false;
@@ -140,6 +135,8 @@ class Command extends CliCommand
      */
     public function close($connection)
     {
-        echo '[close] connection closed' . PHP_EOL;
+        $this->triggerClose($connection->id);
+
+        echo '[closed] client '. $connection->id . ' closed' . PHP_EOL;
     }
 }

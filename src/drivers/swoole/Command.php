@@ -123,20 +123,15 @@ class Command extends CliCommand
      */
     public function message($server, $frame)
     {
-        $class = $this->channelResolve($frame->data);
+        $result = $this->triggerMessage($frame->fd, $frame->data);
 
-        list($fds, $data) = call_user_func([$class, 'execute'], $frame->fd, $frame->data);
-
-        if (!is_array($fds)) {
-            $fds = array($fds);
+        if (!$result) {
+            return false;
         }
 
-        foreach ($fds as $fd) {
-            if (!is_integer($fd)) {
-                echo '[error] client_id format error.' . PHP_EOL;
-                return false;
-            }
+        list($fds, $data) = $result;
 
+        foreach ($fds as $fd) {
             if (!$server->push($fd, $data)) {
                 echo '[error] client_id ' . $fd . ' send failure.' . PHP_EOL;
                 return false;
@@ -156,6 +151,8 @@ class Command extends CliCommand
      */
     public function close(\Swoole\WebSocket\Server $server, $fd) 
     {
-        echo '[closed] client {$fd} closed' . PHP_EOL;
+        $this->triggerClose($fd);
+
+        echo '[closed] client '. $fd . ' closed' . PHP_EOL;
     }
 }
