@@ -121,9 +121,9 @@ class Command extends CliCommand
                 echo '[error] client_id ' . $fd . ' send failure.' . PHP_EOL;
                 return false;
             }
-        }
 
-        echo '[success] client_id ' . $fd . ' send success.' . PHP_EOL;
+            echo '[success] client_id ' . $fd . ' send success.' . PHP_EOL;
+        }
     }
 
     /**
