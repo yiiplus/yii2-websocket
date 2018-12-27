@@ -28,7 +28,7 @@ php composer.phar require --prefer-dist yiiplus/yii2-websocket "^1.0.0"
 
 ## 基本使用
 
-每个 channel 的功能都需要定义一个单独的类。例如，如果你需要为所有客户端推送一条消息，则该类可能如下所示：
+每个 channel 的功能都需要定义一个单独的类。例如，如果你需要为指定客户端推送一条消息，则该类可能如下所示：
 
 ```php
 namespace xxx\channels;
