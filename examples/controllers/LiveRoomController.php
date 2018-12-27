@@ -7,7 +7,7 @@ use Yii;
 class LiveRoomController extends \api\modules\Controller
 {
     /**
-     * 将详细推送到指定直播间直播间
+     * 将消息推送到指定直播间直播间
      *
      * @return bool
      */
