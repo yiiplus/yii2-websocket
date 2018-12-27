@@ -111,11 +111,8 @@ class WebSocket extends CliWebSocket
      *
      * @return bool 是否发送成功的状态
      */
-    public function send($data, $type = 'text', $masked = false)
+    public function send($data, $type = 'text', $masked = true)
     {
-        // workerman需要设置掩码
-        $masked = true;
-
         // 创建 swoole WebSocket 客户端发送数据
         return Yii::createObject([
             'class' => $this->client['class'],

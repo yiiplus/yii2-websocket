@@ -11,7 +11,7 @@
 namespace yiiplus\websocket;
 
 /**
- * Channel Interface.
+ * Channel Interface. 
  *
  * @author gengxiankun@126.com
  * @since 1.0.0

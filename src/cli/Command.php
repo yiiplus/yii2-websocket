@@ -120,7 +120,7 @@ abstract class Command extends Controller
         list($fds, $data) = $result;
         
         if (!is_array($fds)) {
-            $fds = array($fds);
+            $fds = [$fds];
         }
 
         return [$fds, $data];
@@ -186,7 +186,7 @@ abstract class Command extends Controller
         // 验证 channel 类是否规范
         $reflectionClass = new \ReflectionClass($className);
         $class = $reflectionClass->newInstance();
-        if (!($class instanceof \yiiplus\websocket\Channel)) {
+        if (!($class instanceof \yiiplus\websocket\ChannelInterface)) {
             echo '[error] ' . $class. ' must be a ChannelInterface instance instead.' . PHP_EOL;
             return false;
         }

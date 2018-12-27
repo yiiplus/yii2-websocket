@@ -24,9 +24,9 @@ abstract class WebSocket extends Component
 	/**
 	 * 发送数据到WebSocket
 	 *
-	 * @param mixed  $data 发送的数据
-	 * @param string $type 数据类型
+	 * @param mixed  $data   发送的数据
+	 * @param string $type   数据类型
 	 * @param bool   $masked 是否设置掩码
 	 */
-	abstract public function send($data, $type = 'text', $masked = false);
+	abstract public function send($data, $type = 'text', $masked = true);
 }
