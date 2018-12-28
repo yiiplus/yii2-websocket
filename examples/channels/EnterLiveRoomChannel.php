@@ -2,7 +2,7 @@
 namespace channels;
 
 use Yii;
-use LiveRoom;
+use models\LiveRoom;
 use yii\base\BaseObject;
 use yiiplus\websocket\ChannelInterface;
 
