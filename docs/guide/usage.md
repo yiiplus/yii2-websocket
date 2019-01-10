@@ -12,7 +12,7 @@ return [
             'class' => '\yiiplus\websocket\<dirver>\WebSocket',
             'host' => '127.0.0.1',
             'port' => 9501,
-            'channel' => [
+            'channels' => [
                 'push-message' => '\xxx\channels\PushMessageChannel', // 配置 channel 对应的执行类
             ],
       ],

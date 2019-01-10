@@ -16,7 +16,7 @@ return [
 			'class' => '\yiiplus\websocket\workerman\WebSocket',
 			'host' => '127.0.0.1',
 			'port' => 9501,
-			'channel' => [
+			'channels' => [
 				...
 			],
 		],
