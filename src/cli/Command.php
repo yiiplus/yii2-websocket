@@ -4,7 +4,7 @@
  *
  * @category  PHP
  * @package   Yii2
- * @copyright 2006-2018 YiiPlus Ltd
+ * @copyright 2018-2019 YiiPlus Ltd
  * @license   https://github.com/yiiplus/yii2-websocket/licence.txt Apache 2.0
  * @link      http://www.yiiplus.com
  */
