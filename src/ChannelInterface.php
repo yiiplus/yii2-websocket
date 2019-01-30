@@ -1,6 +1,6 @@
 <?php
 /**
- * yii2-websocket
+ * yiiplus/yii2-websocket
  *
  * @category  PHP
  * @package   Yii2
@@ -8,6 +8,7 @@
  * @license   https://github.com/yiiplus/yii2-websocket/licence.txt Apache 2.0
  * @link      http://www.yiiplus.com
  */
+
 namespace yiiplus\websocket;
 
 /**
